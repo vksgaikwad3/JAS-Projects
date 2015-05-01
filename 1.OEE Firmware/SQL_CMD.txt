@@ -1,0 +1,10 @@
+If you want to allow a specific client ip-address (for example: 192.168.1.4) to access the MySQL database running on a server, you should execute the following command on the server that is running the MySQL database.
+
+	$ mysql -u root -p
+	Enter password:
+
+	mysql> use mysql
+
+	mysql> GRANT ALL ON *.* to root@'192.168.1.4' IDENTIFIED BY 'your-root-password';
+
+	mysql> FLUSH PRIVILEGES;

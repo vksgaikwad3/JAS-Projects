@@ -1,0 +1,93 @@
+#include <stdio.h>
+#include <my_global.h>
+#include <mysql.h>
+#include <string.h>
+
+char *server	 = "192.168.1.6";
+char *user 	 = "root";
+char *password 	 = "root"; 		/* set me first */
+char *database 	 = "oee";
+
+
+
+int main()
+{
+	MYSQL *conn;
+	MYSQL_RES *res ,*_data;
+	MYSQL_ROW row;
+	char Value[40];
+
+	
+	
+conn = mysql_init(NULL);	
+printf("MySQL Client %s\n",mysql_get_client_info());
+
+
+/* Connect to database */
+	if (!mysql_real_connect(conn, server,user, password, database, 3306, NULL, 0)) 
+	{
+		fprintf(stderr, "%s\n", mysql_error(conn));
+		exit(1);
+	}
+	else
+        printf("NO ERROR \n");
+/* send SQL query */
+	if (mysql_query(conn, "show tables")) 
+	{
+		fprintf(stderr, "%s\n", mysql_error(conn));
+		exit(1);
+	}
+
+	else
+         printf("\n Querry sucsessfull ");
+
+	 res = mysql_use_result(conn);
+
+	/* output table name */
+	printf("MySQL Tables in mysql database:\n");
+	while ((row = mysql_fetch_row(res)) != NULL)
+	printf("%s \n", row[0]);
+        
+        mysql_free_result(res);
+	
+	
+	/* Write to Table */
+if(mysql_query(conn, "INSERT INTO oee.cycles(customerID,machineID,ModelName,StartTime,EndTime,Result) 	VALUES ('viks','2','LCV','2014:04:4 00:07:00','2014:04:4 00:07:10','fail');")) 
+
+	{
+		fprintf(stderr, "%s\n", mysql_error(conn));
+		exit(1);
+	}
+	else printf("Write successfully");
+	
+	
+	if (mysql_query(conn, "SELECT * FROM oee.cycles;")) 
+	{
+		fprintf(stderr, "%s\n", mysql_error(conn));
+		exit(1);
+	}
+
+	_data = mysql_use_result(conn);
+	
+	unsigned int num_fields = mysql_num_fields(_data);
+        printf("FILED value:%d\n" ,num_fields);
+        printf("MySQL DATA in mysql database:\n");
+        int i;
+	while ((row = mysql_fetch_row(_data)) != NULL)
+       {
+          for(i=0;i<(num_fields);i++)
+          printf("%s  _|", row[i]);
+	  printf("\n");	
+	
+       }
+       mysql_free_result(_data);
+
+	
+
+ /*close connection */
+	
+	mysql_close(conn);
+}
+
+    
+ 

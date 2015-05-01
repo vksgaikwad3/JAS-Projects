@@ -1,0 +1,13 @@
+Set Relays	15.00	0.00	No bulb Reading
+Wait	3500.00	0.00	wait
+Read DMM	225.00	275.00	ON Bulb I (mA)
+Set Relays	14.00	0.00	bulb on
+Wait	3500.00	0.00	wait
+Read DMM	0.00	0.10	OFF Bulb I (mA)
+Set Relays	0.00	0.00	dmm reading
+Set DO	0.00	56.00	setP0
+Set DO	1.00	4.00	setP1
+Wait	100.00	0.00	setP0
+Read Reg Freq	15.00	45.00	Freq (Hz)
+Read Reg V	14.35	14.66	Reg Voltage (V)
+Read DF V	14.40	21.60	DF Voltage (V)

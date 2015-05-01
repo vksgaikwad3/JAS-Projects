@@ -1,0 +1,1 @@
+CustomerID :1,MachineID :5,Mode :2

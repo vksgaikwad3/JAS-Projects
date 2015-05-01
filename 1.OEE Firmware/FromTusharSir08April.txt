@@ -1,0 +1,23 @@
+int GetActiveModelID(): Reads GPIO and returns the number which corresponding to currently Selected Model
+String GetModelName(int modelID): returns the name of model corrsponding to the model ID passed as parameter
+
+int getErrorCode():  Reads GPIO and returns the number corresponding to the active Error. If no error then returns 0. For non zero numbers if previous error code and this is not same then logs new entry in DB.
+
+boolean checkForStart(): returns true if low to high transition occurs on start GPIO input. Also if return value is true then creates new entry in DB with now as start time
+
+boolean checkForStop_Transition(): returns true if low to high transition occurs on Stop GPIO Input
+boolean checkForStop_Toggle(): returns true if high to low transition occurs on start GPIO Input
+
+boolean checkForStop(): calls checkForStop_Transition if "stop signal Type" in config is "transition" else calls checkForStop_Toggle. Also if return value is true then closes the active cyle with stop time as now.
+
+int GetActiveModelID(): Reads GPIO and returns the number which corresponding to currently Selected Model
+String GetModelName(int modelID): returns the name of model corrsponding to the model ID passed as parameter
+
+int getErrorCode():  Reads GPIO and returns the number corresponding to the active Error. If no error then returns 0. For non zero numbers if previous error code and this is not same then logs new entry in DB.
+
+boolean checkForStart(): returns true if low to high transition occurs on start GPIO input. Also if return value is true then creates new entry in DB with now as start time
+
+boolean checkForStop_Transition(): returns true if low to high transition occurs on Stop GPIO Input
+boolean checkForStop_Toggle(): returns true if high to low transition occurs on start GPIO Input
+
+boolean checkForStop(): calls checkForStop_Transition if "stop signal Type" in config is "transition" else calls checkForStop_Toggle. Also if return value is true then closes the active cyle with stop time as now.

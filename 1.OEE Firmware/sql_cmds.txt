@@ -1,0 +1,155 @@
+SETTINGS FOR CONNECTIOS 
+        [ODBC]
+       DRIVER=MySQL ODBC 5.2w Driver
+       UID=root
+       PORT=3306
+       DATABASE=acp_db
+
+ CHEKING: FOR FIST TIME (WE HAVE TO DO CONNECTIVITY )
+    GOTO>> CONTROLE PANNEL>>ADMINISTRATION TOOLS >> DRIVERS(FOR CHECKING DRIVER AVAILABILITY)
+
+
+COMMANDS :
+to create scheema
+    CREATE SCHEMA `sep_db` ;
+
+
+CMD: for new table
+    CREATE  TABLE `acp_db`.`log` (
+  `logid` INT NOT NULL AUTO_INCREMENT ,
+  `logtime` DATETIME NULL ,
+  `in1` INT NULL );
+
+CMD TO ADD COLUMN IN TABLE:
+   ALTER TABLE LOG ADD DI2 INT(1);
+
+CMD FOR READ ALL DATA:
+   SELECT * FROM LOG;
+
+Cmd for access Data from table by giving date:
+   SELECT * from log t WHERE cast(t.LogTime as date) = '2013-04-23'
+
+CMD FOR READ SPESIFIC COLUMN:
+  SELECT IN1,DI2
+FROM LOG
+
+Cmd for insert into array
+   INSERT INTO log (logtime,in1) VALUES(now(),1);
+
+cmd for update value
+  UPDATE  log   
+SET di2 = 1
+where logid=1 ;
+
+cmd 
+   ALTER TABLE `acp_db`.`log2` CHANGE COLUMN `DateTime` `DateTime` DATETIME NOT NULL DEFAULT NULL  
+, DROP PRIMARY KEY 
+, ADD PRIMARY KEY (`logID`, `DateTime`) ;
+cmd for change datatype
+  ALTER TABLE `acp_db`.`log2` CHANGE COLUMN `DateTime` `DateTime` INT NULL  ;
+
+  and 
+   ALTER TABLE `acp_db`.`log2` CHANGE COLUMN `DateTime` `DateTime` DATETIME NULL  ;
+CMD FOR BOOLEAN  MAKE DATATYPE =TINYINT
+      UPDATE  log2   
+      SET AuxContactorK2FB = false
+      where logID=1
+
+cmd for delete contatint
+           DELETE FROM `sep_db`.`log` WHERE `LogID`='3';
+
+cmd= SELECT Name FROM Table_Name WHERE Name LIKE 'Kal%';
++-------------+
+| Name        |
++-------------+
+| Kalookan    |
+| Kalyan      |
+| Kalemie     |
+| Kallithea   |
+| Kalisz      |
+| Kaliningrad |
+| Kaluga      |
+
+
+mysql> SELECT Name, Population FROM City
+    -> ORDER BY Population DESC LIMIT 10;
++-------------------+------------+
+| Name              | Population |
++-------------------+------------+
+| Mumbai (Bombay)   |   10500000 |
+| Seoul             |    9981619 |
+| São Paulo         |    9968485 |
+| Shanghai          |    9696300 |
+| Jakarta           |    9604900 |
+| Karachi           |    9269265 |
+| Istanbul          |    8787958 |
+| Ciudad de México  |    8591309 |
+| Moscow            |    8389200 |
+| New York          |    8008278 |
++-------------------+------------+
+10 rows in set (0.00 sec)
+
+We find the 10 most populated cities. We order the data by population from the most populated to the least populated city. 
+We limit the output with the LIMIT clause. 
+
+
+mysql> SELECT Name, Population FROM City 
+    -> ORDER BY Population ASC LIMIT 10;
+
+
+mysql> CREATE TABLE First10 engine=MEMORY SELECT * FROM City LIMIT 10;
+
+We create a temporary table in the memory. It will contain first ten cities from the City table. 
+
+
+To Write Query result into Excel file
+   SELECT * FROM jas_accesslevels 
+INTO OUTFILE 'E:\file.csv'
+FIELDS TERMINATED BY ','
+
+
+SQL Wildcard Characters
+
+Wildcard 	Description
+% 	      A substitute for zero or more characters
+_ 	      A substitute for a single character
+[charlist]    Sets and ranges of characters to match
+[^charlist]
+or
+[!charlist] 	Matches only a character NOT specified within the brackets
+
+
+
+SELECT CustomerName, CONCAT(Address,', ',City,', ',PostalCode,', ',Country) AS Address
+FROM Customers;
+
+
+15 March 2014
+
+ CMD:  ROW_COUNT();   // This function will return number of rows were updated by las query
+
+24 MArch 2014
+	If you try to connect to a remote MySQL database from your client system, you will get the “Host is not allowed to connect to this MySQL server” message as shown below.
+
+	$ mysql -h 192.168.1.8 -u root -p
+	Enter password:
+	ERROR 1130: Host '192.168.1.4' is not allowed to connect to this MySQL server
+
+	You can also validate this by doing telnet to 3306 mysql port as shown below, which will also give the same “host is not allowed to connect to this MySQL server” error message.
+
+	$ telnet 192.168.1.8 3306
+	host 192.168.1.4 is not allowed to connect to this mysql server
+
+	If you want to allow a specific client ip-address (for example: 192.168.1.4) to access the MySQL database running on a server, you should execute the following command on the server that is running the MySQL database.
+
+	$ mysql -u root -p
+	Enter password:
+
+	mysql> use mysql
+
+	mysql> GRANT ALL ON *.* to root@'192.168.1.4' IDENTIFIED BY 'your-root-password';
+
+	mysql> FLUSH PRIVILEGES;
+
+
+    

@@ -1,0 +1,7 @@
+Name	Scale	Offset	Comment
+Read_V	1	0	channel 1(0 to 20V)
+V_2	1	0	Channel 2
+DMM	1	0	Channel1(0 to 400mA)
+mA_2	1	0	Channel2
+Read_I	1	0	Channel1(0 to 20A)
+A_2	1	0	Channel2

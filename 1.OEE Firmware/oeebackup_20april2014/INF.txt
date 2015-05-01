@@ -1,0 +1,1 @@
+CustomerID:Vikas,MachineID:1,Mode:1

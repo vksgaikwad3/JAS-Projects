@@ -1,0 +1,49 @@
+Relay Connections 
+LOAD Connections			Relay RL0
+
+Relay No	0
+
+Relay Label		Wire Label
+NC(02)			open
+COM(01)			white 01/Lamp white 01
+NO(04)			white 04
+
+Relay No 1
+NC(12)			DF Blue 12/Blue 12
+COM(11)			Black 11/DF Blue Black 11
+NO(14)			open
+
+Relay NO 2 
+NC(22)			D+ violet 22
+COM(21)			Rcb 21/DF Blue 22
+NO(24)			open
+
+Relay No 3
+NC(32)			open					
+COM(31)			Blue 31/DF Blue 31
+NO(34)			Blue 34/D+ From 2.2Ohm Blue 34
+
+Relay No 4
+NC(44)			Blue 44
+COM(41)			Blue 41
+NO(42)			open
+
+Relay No 5
+NC(54)			White 54
+COM(51)			White 51
+NO(52)			open
+
+Relay No 6 
+NC(64)			open
+COM(61)			open
+NO(62)			open
+
+Relay No 7
+NC(74)			Yellow Wire
+COM(71)			Black Wire
+NO(72)			open
+
+*****Channels Used*******
+1.Amperes Current	A2 Channel
+2.miliAmpere current 	I1 Channel
+3.Voltage measurement	V1 Channel			

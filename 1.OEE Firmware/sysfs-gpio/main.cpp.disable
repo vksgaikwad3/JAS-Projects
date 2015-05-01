@@ -1,0 +1,99 @@
+#include <iostream>
+#include <unistd.h>
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <signal.h>
+#include "fsgpio_pin.h"
+
+using namespace std;
+
+void sig_handler(int sig);
+
+bool ctrl_c_pressed = false;
+
+int main (void)
+{
+	struct sigaction sig_struct;
+    sig_struct.sa_handler = sig_handler;
+    sig_struct.sa_flags = 0;
+    sigemptyset(&sig_struct.sa_mask);
+
+    if (sigaction(SIGINT, &sig_struct, NULL) == -1)
+	{
+        cout << "Problem with sigaction" << endl;
+        exit(1);
+    }
+
+	FSGPIO_Pin led_pin(44); 	  	//create new GPIO object to be attached to  GPIO44
+	FSGPIO_Pin button_pin(61); //create new GPIO object to be attached to  GPIO26
+
+	int result = 0;
+	result |= led_pin.activate(); 					//export the pin
+	result |= button_pin.activate(); 			//export the pin
+	if (result == 0)
+		cout << " GPIO pins exported" << endl;
+	else
+	{
+		cerr << "Error: Can't export pins - running as non-root?" << endl;
+		exit(1);
+	}
+
+	result |= led_pin.setdir(1); 					// Set to output
+	result |= button_pin.setdir(0); 			// Set to input
+	if (result == 0)
+		cout << " Set GPIO pin directions" << endl;
+	else
+	{
+		cerr << "Error: Can't set I/O direction" << endl;
+		exit(1);
+	}
+
+    while(1)
+    {
+		 int state = 0;
+
+        usleep(100000);  						// wait for 0.1 seconds
+        state = button_pin.getval(); 	// read state of GPIO61 input pin
+        if(state == 0) 							// if input pin is at state "0" i.e. button pressed
+        {
+			cout << "input pin state is \"Pressed \".\n Will check input pin state again in 20ms "<<endl;
+			usleep(20000);
+			cout << "Checking again ....." << endl;
+			// checking again to ensure that state "0" is due to button press and not noise
+			state = button_pin.getval();
+
+			if(state == 0)
+			{
+				cout << "input pin state is definitely \"Pressed\". Turning LED ON" <<endl;
+				led_pin.setval(1);
+
+				cout << " Waiting until pin is unpressed....." << endl;
+				while (state == 0)
+				{
+					state = button_pin.getval();
+					usleep(20000);
+				}
+
+				cout << "pin is unpressed" << endl;
+			}
+			else
+				cout << "input pin state is definitely \"UnPressed\". That was just noise." <<endl;
+        }
+        led_pin.setval(0);
+
+        if(ctrl_c_pressed)
+		{
+			// Deactivate the pins to close the files.
+			led_pin.deactivate();
+			button_pin.deactivate();
+			break;
+		}
+    }
+
+    cout << "Exiting....." << endl;
+    return 0;
+}
+
+void sig_handler(int sig)
+{ ctrl_c_pressed = true; }
